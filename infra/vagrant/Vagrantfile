@@ -1,0 +1,94 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-22.04"
+  config.vm.box_architecture = "arm64"
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+  config.vm.boot_timeout = 600
+
+  # =========================
+  # GATEWAY
+  # =========================
+  config.vm.define "gateway" do |gw|
+    gw.vm.hostname = "gateway"
+
+    gw.vm.provider "virtualbox" do |vb|
+      vb.name = "lab-gateway"
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+
+    gw.vm.provider "vmware_desktop" do |v|
+      v.vmx["displayName"] = "lab-gateway"
+      v.vmx["memsize"] = "1024"
+      v.vmx["numvcpus"] = "1"
+    end
+
+    gw.vm.network "private_network", ip: "192.168.10.1"
+    gw.vm.network "private_network", ip: "192.168.20.1"
+  end
+
+  # =========================
+  # CLIENT
+  # =========================
+  config.vm.define "client" do |client|
+    client.vm.hostname = "client"
+
+    client.vm.provider "virtualbox" do |vb|
+      vb.name = "lab-client"
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+
+    client.vm.provider "vmware_desktop" do |v|
+      v.vmx["displayName"] = "lab-client"
+      v.vmx["memsize"] = "1024"
+      v.vmx["numvcpus"] = "1"
+    end
+
+    client.vm.network "private_network", ip: "192.168.10.10"
+  end
+
+  # =========================
+  # BACKEND A
+  # =========================
+  config.vm.define "backend-a" do |ba|
+    ba.vm.hostname = "backend-a"
+
+    ba.vm.provider "virtualbox" do |vb|
+      vb.name = "lab-backend-a"
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+
+    ba.vm.provider "vmware_desktop" do |v|
+      v.vmx["displayName"] = "lab-backend-a"
+      v.vmx["memsize"] = "1024"
+      v.vmx["numvcpus"] = "1"
+    end
+
+    ba.vm.network "private_network", ip: "192.168.20.10"
+  end
+
+  # =========================
+  # BACKEND B
+  # =========================
+  config.vm.define "backend-b" do |bb|
+    bb.vm.hostname = "backend-b"
+
+    bb.vm.provider "virtualbox" do |vb|
+      vb.name = "lab-backend-b"
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+
+    bb.vm.provider "vmware_desktop" do |v|
+      v.vmx["displayName"] = "lab-backend-b"
+      v.vmx["memsize"] = "1024"
+      v.vmx["numvcpus"] = "1"
+    end
+
+    bb.vm.network "private_network", ip: "192.168.20.11"
+  end
+end
