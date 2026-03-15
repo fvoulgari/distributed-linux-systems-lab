@@ -1,0 +1,21 @@
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Install common packages
+  ansible.builtin.apt:
+    name:
+      - curl
+      - vim
+      - bash-completion
+      - iproute2
+      - net-tools
+      - traceroute
+      - tcpdump
+      - dnsutils
+      - nfs-common
+      - jq
+      - htop
+
+    state: present

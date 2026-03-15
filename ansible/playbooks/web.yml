@@ -1,0 +1,5 @@
+- name: Configure backend routes
+  hosts: web
+  become: true
+  roles:
+    - web

@@ -1,0 +1,6 @@
+---
+- name: Add route to client subnet via gateway
+  ansible.builtin.command:
+    cmd: ip route replace 192.168.10.0/24 via 192.168.20.1
+  register: web_route_result
+  changed_when: web_route_result.rc == 0

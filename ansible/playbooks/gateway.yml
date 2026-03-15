@@ -1,0 +1,5 @@
+- name: Configure gateway baseline
+  hosts: gateways
+  become: true
+  roles:
+    - gateway

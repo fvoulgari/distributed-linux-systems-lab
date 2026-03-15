@@ -1,0 +1,11 @@
+ansible_python_interpreter: /usr/bin/python3
+
+lab_client_subnet: 192.168.10.0/24
+lab_backend_subnet: 192.168.20.0/24
+
+gateway_client_ip: 192.168.10.1
+gateway_backend_ip: 192.168.20.1
+
+client_ip: 192.168.10.10
+backend_a_ip: 192.168.20.10
+backend_b_ip: 192.168.20.11
