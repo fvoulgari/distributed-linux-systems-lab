@@ -1,0 +1,17 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    {{ backend_nat_interface }}:
+      dhcp4: true
+      dhcp4-overrides:
+        use-routes: false
+    {{ backend_primary_interface }}:
+      dhcp4: false
+      addresses:
+        - {{ backend_ip }}/{{ backend_prefix_length }}
+      routes:
+        - to: default
+          via: {{ gateway_backend_ip }}
+        - to: {{ lab_client_subnet }}
+          via: {{ gateway_backend_ip }}

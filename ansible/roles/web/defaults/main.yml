@@ -1,0 +1,6 @@
+---
+backend_primary_interface: eth1
+backend_nat_interface: eth0
+backend_gateway_ip: 192.168.20.1
+client_subnet: 192.168.10.0/24
+backend_prefix_length: 24

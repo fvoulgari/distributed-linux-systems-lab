@@ -1,0 +1,5 @@
+gateway_uplink_iface: eth0
+gateway_backend_iface: eth2
+gateway_client_iface: eth1
+backend_subnet: 192.168.20.0/24
+client_subnet: 192.168.10.0/24

@@ -1,0 +1,20 @@
+---
+- name: Install iptables persistence package
+  ansible.builtin.apt:
+    name: iptables-persistent
+    state: present
+    update_cache: true
+
+- name: Deploy gateway firewall rules
+  ansible.builtin.template:
+    src: rules.v4.j2
+    dest: /etc/iptables/rules.v4
+    owner: root
+    group: root
+    mode: "0644"
+  register: gateway_firewall_rules
+
+- name: Reload iptables rules
+  ansible.builtin.command:
+    cmd: netfilter-persistent reload
+  when: gateway_firewall_rules.changed
