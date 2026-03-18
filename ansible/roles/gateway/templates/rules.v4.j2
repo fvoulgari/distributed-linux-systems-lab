@@ -6,6 +6,9 @@
 -A FORWARD -i {{ gateway_backend_iface }} -o {{ gateway_uplink_iface }} -j ACCEPT
 -A FORWARD -i {{ gateway_uplink_iface }} -o {{ gateway_backend_iface }} -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
+-A FORWARD -i {{ gateway_client_iface }} -o {{ gateway_uplink_iface }} -j ACCEPT
+-A FORWARD -i {{ gateway_uplink_iface }} -o {{ gateway_client_iface }} -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+
 COMMIT
 
 *nat
@@ -15,5 +18,6 @@ COMMIT
 :POSTROUTING ACCEPT [0:0]
 
 -A POSTROUTING -s {{ backend_subnet }} -o {{ gateway_uplink_iface }} -j MASQUERADE
+-A POSTROUTING -s {{ client_subnet }} -o {{ gateway_uplink_iface }} -j MASQUERADE
 
 COMMIT

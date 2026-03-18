@@ -1,0 +1,4 @@
+---
+client_nat_interface: eth0
+client_primary_interface: eth1
+client_prefix_length: 24
