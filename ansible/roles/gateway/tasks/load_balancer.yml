@@ -1,0 +1,45 @@
+---
+- name: Install nginx
+  ansible.builtin.apt:
+    name: nginx
+    state: present
+    update_cache: true
+
+- name: Deploy gateway load balancer config
+  ansible.builtin.template:
+    src: gateway-lb.conf.j2
+    dest: /etc/nginx/sites-available/gateway-lb
+    owner: root
+    group: root
+    mode: "0644"
+  register: gateway_lb_config
+
+- name: Enable gateway load balancer site
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/gateway-lb
+    dest: /etc/nginx/sites-enabled/gateway-lb
+    state: link
+  register: gateway_lb_site
+
+- name: Remove default nginx site
+  ansible.builtin.file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  register: gateway_default_site
+
+- name: Validate nginx configuration
+  ansible.builtin.command:
+    cmd: nginx -t
+  changed_when: false
+
+- name: Ensure nginx is enabled and running
+  ansible.builtin.service:
+    name: nginx
+    enabled: true
+    state: started
+
+- name: Reload nginx
+  ansible.builtin.service:
+    name: nginx
+    state: reloaded
+  when: gateway_lb_config.changed or gateway_lb_site.changed or gateway_default_site.changed

@@ -4,3 +4,6 @@
 
 - name: Configure NAT
   ansible.builtin.import_tasks: nat.yml
+
+- name: Configure load balancer
+  ansible.builtin.import_tasks: load_balancer.yml
