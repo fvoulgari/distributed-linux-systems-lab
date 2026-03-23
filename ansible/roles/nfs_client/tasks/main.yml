@@ -1,0 +1,38 @@
+---
+- name: Install NFS client packages
+  ansible.builtin.apt:
+    name: nfs-common
+    state: present
+    update_cache: true
+
+- name: Create shared logs mount point
+  ansible.builtin.file:
+    path: "{{ nfs_shared_logs_mount }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Create shared scripts mount point
+  ansible.builtin.file:
+    path: "{{ nfs_shared_scripts_mount }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Mount shared logs directory
+  ansible.posix.mount:
+    src: "{{ nfs_server_ip }}:{{ nfs_logs_export_path }}"
+    path: "{{ nfs_shared_logs_mount }}"
+    fstype: nfs4
+    opts: defaults,_netdev
+    state: mounted
+
+- name: Mount shared scripts directory
+  ansible.posix.mount:
+    src: "{{ nfs_server_ip }}:{{ nfs_scripts_export_path }}"
+    path: "{{ nfs_shared_scripts_mount }}"
+    fstype: nfs4
+    opts: defaults,_netdev
+    state: mounted

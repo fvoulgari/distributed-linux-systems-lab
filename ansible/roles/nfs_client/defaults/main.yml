@@ -1,0 +1,8 @@
+---
+nfs_server_ip: "{{ gateway_backend_ip }}"
+
+nfs_logs_export_path: /srv/nfs/shared/logs
+nfs_scripts_export_path: /srv/nfs/shared/scripts
+
+nfs_shared_logs_mount: /mnt/shared/logs
+nfs_shared_scripts_mount: /mnt/shared/scripts

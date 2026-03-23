@@ -1,0 +1,9 @@
+---
+nfs_exports:
+  - path: /srv/nfs/shared/logs
+    subnet: "{{ lab_backend_subnet }}"
+    options: rw,sync,no_subtree_check,no_root_squash
+
+  - path: /srv/nfs/shared/scripts
+    subnet: "{{ lab_backend_subnet }}"
+    options: rw,sync,no_subtree_check,no_root_squash
