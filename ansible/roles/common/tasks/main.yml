@@ -17,5 +17,6 @@
       - nfs-common
       - jq
       - htop
+      - bc
 
     state: present

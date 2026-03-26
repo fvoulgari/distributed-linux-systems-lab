@@ -25,3 +25,9 @@
     name: nginx
     state: reloaded
   when: backend_index_page.changed
+
+- name: Run shared health check every 5 minutes
+  ansible.builtin.cron:
+    name: "shared health check"
+    minute: "*/5"
+    job: "/bin/bash /mnt/shared/scripts/health_check.sh"
