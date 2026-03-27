@@ -1,13 +1,21 @@
 *filter
-:INPUT ACCEPT [0:0]
-:FORWARD ACCEPT [0:0]
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
 :OUTPUT ACCEPT [0:0]
 
--A FORWARD -i {{ gateway_backend_iface }} -o {{ gateway_uplink_iface }} -j ACCEPT
--A FORWARD -i {{ gateway_uplink_iface }} -o {{ gateway_backend_iface }} -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+-A INPUT -i lo -j ACCEPT
+-A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+-A INPUT -p icmp -j ACCEPT
 
+-A INPUT -p tcp --dport 22 -j ACCEPT
+-A INPUT -i {{ gateway_client_iface }} -p tcp --dport 80 -j ACCEPT
+
+-A INPUT -i {{ gateway_backend_iface }} -s {{ backend_subnet }} -j ACCEPT
+
+-A FORWARD -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+-A FORWARD -i {{ gateway_backend_iface }} -o {{ gateway_uplink_iface }} -j ACCEPT
 -A FORWARD -i {{ gateway_client_iface }} -o {{ gateway_uplink_iface }} -j ACCEPT
--A FORWARD -i {{ gateway_uplink_iface }} -o {{ gateway_client_iface }} -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 
 COMMIT
 
